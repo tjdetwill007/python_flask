@@ -20,9 +20,9 @@ jobs:
           env:
             AWS_KEY: ${{ secrets.AWS_KEY }}
             CERT: ${{ secrets.CERT }}
-            
+
         - name: Upload artifact
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
             name: single-file-artifact
             path: newfile
