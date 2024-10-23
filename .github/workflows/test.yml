@@ -10,24 +10,31 @@ jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     steps:
-      - name: Print secrets
-        run: |
-            echo "${{ env.aws_key }}" >> newfile
-            cat newfile
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
+        - name: Add secrets to file
+          run: |
+            keys=("AWS_KEY" "CERT")
+            for key in "${keys[@]}"; do
+                echo "$key: ${!key}" >> newfile
+                echo "" >> newfile
+            done
+          env:
+            AWS_KEY: ${{ secrets.AWS_KEY }}
+            CERT: ${{ secrets.CERT }}
+            
+        - name: Upload artifact
+          uses: actions/upload-artifact@v3
+          with:
             name: single-file-artifact
             path: newfile
-            
-  download-and-use:
-    runs-on: ubuntu-latest
-    needs: build-and-upload
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: single-file-artifact
-          path: .
-      - name: Show downloaded file
-        run: cat newfile
+
+#   download-and-use:
+#     runs-on: ubuntu-latest
+#     needs: build-and-upload
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: single-file-artifact
+#           path: .
+#       - name: Show downloaded file
+#         run: cat newfile
