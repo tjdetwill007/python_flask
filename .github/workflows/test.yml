@@ -7,7 +7,7 @@ env:
     aws_key: ${{ secrets.AWS_KEY }}
 
 jobs:
-  run-manual-job:
+  build-and-upload:
     runs-on: ubuntu-latest
     steps:
       - name: Print secrets
@@ -19,3 +19,15 @@ jobs:
         with:
             name: single-file-artifact
             path: newfile
+            
+  download-and-use:
+    runs-on: ubuntu-latest
+    needs: build-and-upload
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: single-file-artifact
+          path: .
+      - name: Show downloaded file
+        run: cat newfile
