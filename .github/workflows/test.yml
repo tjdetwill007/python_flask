@@ -3,11 +3,14 @@ name: Manual Dispatch Workflow
 on:
   workflow_dispatch:
 
+env:
+    aws_key: ${{ secrets.AWS_KEY }}
+
 jobs:
   run-manual-job:
     runs-on: ubuntu-latest
     steps:
       - name: Print secrets
         run: |
-            echo "${{ secrets.AWS_KEY }}"
-            
+            echo "${{ env.aws_key }}"
+
