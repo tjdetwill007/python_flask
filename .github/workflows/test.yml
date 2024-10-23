@@ -14,4 +14,8 @@ jobs:
         run: |
             echo "${{ env.aws_key }}" >> newfile
             cat newfile
-
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: single-file-artifact
+            path: newfile
