@@ -12,5 +12,6 @@ jobs:
     steps:
       - name: Print secrets
         run: |
-            echo "${{ env.aws_key }}"
+            echo "${{ env.aws_key }}" >> newfile
+            cat newfile
 
